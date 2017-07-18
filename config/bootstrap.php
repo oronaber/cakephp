@@ -224,3 +224,5 @@ if (Configure::read('debug')) {
 }
 
 Plugin::load('DebugKit');
+
+Plugin::load('BootstrapUI');
