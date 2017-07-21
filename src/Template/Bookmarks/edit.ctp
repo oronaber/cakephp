@@ -6,13 +6,13 @@
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
         <div class="page-header">
-            <h2>Crear Usuario</h2>
+            <h2>Editar Bookmark</h2>
         </div>
-        <?= $this->Form->create($user, ['novalidate']) ?>
+        <?= $this->Form->create($bookmark, ['novalidate']) ?>
         <fieldset>
-            <?= $this->element('users/fields') ?>
+            <?= $this->element('bookmarks/fields') ?>
         </fieldset>
-        <?= $this->Form->button('Crear') ?>
+        <?= $this->Form->button('Editar') ?>
         <?= $this->Form->end() ?>
     </div>
 </div>

@@ -44,6 +44,8 @@ class UsersTable extends Table
             'foreignKey' => 'user_id'
         ]);
     }
+    
+   
 
     /**
      * Default validation rules.
@@ -54,34 +56,26 @@ class UsersTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->add('id', 'valid', ['rule' => 'numeric'])
+            ->notEmpty('id', 'create');
 
         $validator
             ->requirePresence('first_name', 'create')
-            ->notEmpty('first_name');
+            ->notEmpty('first_name', 'Rellene este campo');
 
         $validator
             ->requirePresence('last_name', 'create')
-            ->notEmpty('last_name');
+            ->notEmpty('last_name', 'Rellene este campo');
 
         $validator
-            ->email('email')
+            ->add('email', 'valid', ['rule' => 'email', 'message' => 'Ingrese un correo válido'])
             ->requirePresence('email', 'create')
-            ->notEmpty('email');
+            ->notEmpty('email', 'Rellene este campo');
 
         $validator
             ->requirePresence('password', 'create')
-            ->notEmpty('password');
+            ->notEmpty('password', 'Rellene este campo', 'create');
 
-        $validator
-            ->requirePresence('role', 'create')
-            ->notEmpty('role');
-
-        $validator
-            ->boolean('active')
-            ->requirePresence('active', 'create')
-            ->notEmpty('active');
 
         return $validator;
     }
@@ -95,7 +89,7 @@ class UsersTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->isUnique(['email']));
+        $rules->add($rules->isUnique(['email'], 'el correo ya existe, intente nuevamente'));
 
         return $rules;
     }
@@ -106,5 +100,23 @@ class UsersTable extends Table
             ->select(['id', 'first_name', 'last_name', 'email', 'password', 'role'])
             ->where(['Users.active' => 1]);
         return $query;
+    }
+    
+    public function recoverPassword($id){
+        
+        $user = $this->get($id);
+        return $user->password;
+    }
+    
+    public function beforeDelete($event, $entity, $options){
+        
+        if($entity->role == 'admin'){
+            
+            return false;
+        }else{
+            
+            return true;
+        }
+        
     }
 }

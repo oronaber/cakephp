@@ -11,9 +11,9 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <?php if(isset($current_user)): ?>
-           <?php if($current_user['role'] == 'admin'): ?>
+           
           <ul class="nav navbar-nav">
-            
+            <?php if($current_user['role'] == 'admin'): ?>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuarios <span class="caret"></span></a>
               <ul class="dropdown-menu">
@@ -21,8 +21,13 @@
                 <li><?= $this->Html->link('Agregar Usuario', ['controller' => 'Users', 'action' => 'add']) ?></li>
               </ul>
             </li>
+            <?php endif; ?>
+            <li>
+              <?= $this->Html->link('Mi lista', ['controller' => 'Bookmarks', 'action' => 'index']) ?>
+            </li>
+            
           </ul>
-          <?php endif; ?>
+          
           <ul class='nav navbar-nav navbar-right'>
             <li>
               <?= $this->Html->link('Salir', ['controller' => 'Users', 'action' => 'logout']) ?>
